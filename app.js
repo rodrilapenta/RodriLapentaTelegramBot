@@ -32,9 +32,9 @@ app.post(`/bot${TOKEN}`, (req, res) => {
 });
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://" + process.env.MONGO_URL;
+var mongoUrl = "mongodb://" + process.env.MONGO_URL;
 
-MongoClient.connect(url, function(err, db) {
+MongoClient.connect(mongoUrl, function(err, db) {
 	if (err) throw err;
 	db.createCollection("bot_users", function(err, res) {
 		if (err) throw err;
@@ -53,7 +53,7 @@ bot.on('message', msg => {
   switch(msg.text) {
 	  case "/start":
 		bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
-		/*MongoClient.connect(url, function(err, db) {
+		/*MongoClient.connect(mongoUrl, function(err, db) {
 			if (err) throw err;
 			db.collection("bot_users").insertOne(req.body, function(err, res) {
 				if (err) throw err;
