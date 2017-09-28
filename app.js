@@ -45,7 +45,7 @@ MongoClient.connect(mongoUrl, function(err, db) {
 
 // Start Express Server
 app.listen(port, () => {
-  console.log(`Express server is listening on ${port}`);
+  console.log(`Express server levantado en el puerto ${port}`);
 });
 
 // Just to ping!
