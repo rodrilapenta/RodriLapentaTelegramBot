@@ -53,15 +53,16 @@ bot.on('message', msg => {
 	
 	switch(msg.text) {
 		case "/start":
-			bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
 			MongoClient.connect(mongoUrl, function(err, db) {
 				if (err) throw err;
 				db.collection("bot_users").update(
 					{keyword: msg.from},
 					{$inc: {visit_count: 1}},
 					{upsert: true, safe: false},
-					function(err, res) {
+					function(err, res, upserted) {
 						if (err) throw err;
+						if(upserted) bot.sendMessage(msg.chat.id, "¡Bienvenido de nuevo, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
+						else bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
 						console.log("1 document inserted");
 						db.close();
 					}
