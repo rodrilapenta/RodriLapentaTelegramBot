@@ -39,6 +39,9 @@ app.listen(port, () => {
 // Just to ping!
 bot.on('message', msg => {
   switch(msg.text) {
+	  case "/start":
+		bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
+	  break;
 	  case "/saludar":
 		bot.sendMessage(msg.chat.id, "¡Hola " + msg.chat.first_name + " " + msg.chat.last_name + "!");
 	  break;
