@@ -52,7 +52,62 @@ app.listen(port, () => {
 bot.on('message', msg => {
 	console.log("message", msg);
   console.log("message JSON", JSON.stringify(msg));
-	switch(msg.text) {
+	if(msg.voice) {
+    handleVoiceMessage(msg);
+  }
+  else if (msg.text) {
+    handleTextMessage(msg);
+  }
+  else if (msg.document) {
+    handleDocumentMessage(msg);
+  }
+  else if (msg.game) {
+    handleGameMessage(msg);
+  }
+  else if (msg.video) {
+    handleVideoMessage(msg);
+  }
+  else if (msg.video_note) {
+    handleVideoNoteMessage(msg);
+  }
+  else if (msg.contact) {
+    handleContactMessage(msg);
+  }
+  else if (msg.location) {
+    handleLocationMessage(msg);
+  }
+});
+
+function handleVoiceMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
+}
+
+function handleDocumentMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus documentos, disculpas.");
+}
+
+function handleGameMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos jugar ahora, disculpas.");
+}
+
+function handleVideoMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
+}
+
+function handleVideoNoteMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
+}
+
+function handleContactMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus contactos, disculpas.");
+}
+
+function handleLocationMessage(msg) {
+  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tu ubicación, disculpas.");
+}
+
+function handleTextMessage(msg) {
+  switch(msg.text) {
 		case "/start":
 			MongoClient.connect(mongoUrl, function(err, db) {
 				if (err) throw err;
@@ -87,4 +142,4 @@ bot.on('message', msg => {
 			bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
 		break;
 	}
-});
+}
