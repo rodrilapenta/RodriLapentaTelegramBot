@@ -50,9 +50,11 @@ app.listen(port, () => {
 
 // Just to ping!
 bot.on('message', msg => {
-	console.log("message", msg);
+  console.log("message", msg);
   console.log("message JSON", JSON.stringify(msg));
-	if(msg.voice) {
+  bot.sendMessage(msg.chat.id, JSON.stringify(msg));
+  
+  if(msg.voice) {
     handleVoiceMessage(msg);
   }
   else if (msg.text) {
