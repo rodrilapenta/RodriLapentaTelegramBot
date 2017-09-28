@@ -50,21 +50,21 @@ app.listen(port, () => {
 
 // Just to ping!
 bot.on('message', msg => {
-	if(msg) {
+	//if(msg) {
 		bot.sendMessage(msg.chat.id, msg);
-	}
+	/*}
 	else {
 		switch(msg.text) {
 			case "/start":
 				bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
-				/*MongoClient.connect(mongoUrl, function(err, db) {
+				MongoClient.connect(mongoUrl, function(err, db) {
 					if (err) throw err;
 					db.collection("bot_users").insertOne(req.body, function(err, res) {
 						if (err) throw err;
 						console.log("1 document inserted");
 						db.close();
 					});
-				});*/
+				});
 			break;
 			case "/saludar":
 				bot.sendMessage(msg.chat.id, "¡Hola " + msg.chat.first_name + " " + msg.chat.last_name + "!");
@@ -84,5 +84,5 @@ bot.on('message', msg => {
 				bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
 			break;
 		}
-	}
+	}*/
 });
