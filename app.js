@@ -50,7 +50,8 @@ app.listen(port, () => {
 
 // Just to ping!
 bot.on('message', msg => {
-	
+	console.log("message", msg);
+  console.log("message JSON", JSON.stringify(msg));
 	switch(msg.text) {
 		case "/start":
 			MongoClient.connect(mongoUrl, function(err, db) {
