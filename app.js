@@ -78,6 +78,6 @@ bot.on('message', msg => {
 	  break;
 	  default:
 		bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
-		bot.sendMessage(msg.chat.id, msg);
+	break;
   }
 });
