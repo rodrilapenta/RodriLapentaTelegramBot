@@ -59,8 +59,8 @@ bot.on('message', msg => {
 					{keyword: msg.from},
 					{$inc: {visit_count: 1}},
 					{upsert: true, safe: false},
-					function(err, res, upserted) {
-						console.log(upserted);
+					function(err, res) {
+						console.log(res);
 						if (err) throw err;
 						if(upserted) bot.sendMessage(msg.chat.id, "¡Bienvenido de nuevo, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
 						else bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
