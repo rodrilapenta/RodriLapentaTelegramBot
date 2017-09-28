@@ -66,8 +66,8 @@ bot.on('message', msg => {
 		case "/saludar":
 			bot.sendMessage(msg.chat.id, "¡Hola " + msg.chat.first_name + " " + msg.chat.last_name + "!");
 		break;
-		case "/testing":
-			bot.sendMessage(msg.chat.id, msg);
+		case "/debug":
+			bot.sendMessage(msg.chat.id, JSON.stringify(msg));
 		break;
 		case "/consumos":
 			request(process.env.SM_CONS_URL, function (error, response, body) {
