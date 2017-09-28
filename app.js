@@ -6,7 +6,7 @@
 
 const TOKEN = process.env.TELEGRAM_TOKEN;
 const port = process.env.PORT || 3000;
-const url = 'https://pruebanodetelegrambot.herokuapp.com';
+const url = 'https://rodrilapentatelegrambot.herokuapp.com';
 
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');

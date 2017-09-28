@@ -1,5 +1,5 @@
 {
-  "name": "pruebanodetelegrambot",
+  "name": "rodrilapentatelegrambot",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rodrilapenta/PruebaNodeTelegramBot.git"
+    "url": "git+https://github.com/rodrilapenta/RodriLapentaTelegramBot.git"
   },
   "author": "rodrilapenta",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rodrilapenta/PruebaNodeTelegramBot/issues"
+    "url": "https://github.com/rodrilapenta/RodriLapentaTelegramBot/issues"
   },
-  "homepage": "https://github.com/rodrilapenta/PruebaNodeTelegramBot#readme"
+  "homepage": "https://github.com/rodrilapenta/RodriLapentaTelegramBot#readme"
 }
