@@ -50,7 +50,7 @@ app.listen(port, () => {
 
 // Just to ping!
 bot.on('message', msg => {
-	if(msg.text == null) {
+	if(msg.text == undefined) {
 		bot.sendMessage(msg.chat.id, msg);
 	}
 	else {
