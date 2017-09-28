@@ -140,6 +140,19 @@ function handleTextMessage(msg) {
 				}
 			})
 		break;
+		case "/pregunta":
+			const opts = {
+				reply_to_message_id: msg.message_id,
+				reply_markup: JSON.stringify({
+				  keyboard: [
+					['Sí, soy un boludo'],
+					['No, soy dos boludos'],
+					['Sí, soy boludo y no tengo huevos']
+				  ]
+				})
+			  };
+			bot.sendMessage(msg.chat.id, '¿Sos boludo?', opts);
+		break;
 		default:
 			bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
 		break;
