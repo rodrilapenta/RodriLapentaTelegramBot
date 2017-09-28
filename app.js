@@ -50,34 +50,39 @@ app.listen(port, () => {
 
 // Just to ping!
 bot.on('message', msg => {
-  switch(msg.text) {
-	  case "/start":
-		bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
-		/*MongoClient.connect(mongoUrl, function(err, db) {
-			if (err) throw err;
-			db.collection("bot_users").insertOne(req.body, function(err, res) {
-				if (err) throw err;
-				console.log("1 document inserted");
-				db.close();
-			});
-		});*/
-	  break;
-	  case "/saludar":
-		bot.sendMessage(msg.chat.id, "¡Hola " + msg.chat.first_name + " " + msg.chat.last_name + "!");
-	  break;
-	  case "/debug":
+	if(msg.text == null) {
 		bot.sendMessage(msg.chat.id, msg);
-	  break;
-	  case "/consumos":
-		request(process.env.SM_CONS_URL, function (error, response, body) {
-			if (!error && response.statusCode == 200) {
-				var consumos = JSON.parse(body);
-				bot.sendMessage(msg.chat.id, "Usted tiene " + consumos.length + " consumos en el mes de septiembre.");
-			}
-		})
-	  break;
-	  default:
-		bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
-	break;
-  }
+	}
+	else {
+		switch(msg.text) {
+			case "/start":
+				bot.sendMessage(msg.chat.id, "¡Bienvenido a mi bot, " + msg.chat.first_name + " " + msg.chat.last_name + "!");
+				/*MongoClient.connect(mongoUrl, function(err, db) {
+					if (err) throw err;
+					db.collection("bot_users").insertOne(req.body, function(err, res) {
+						if (err) throw err;
+						console.log("1 document inserted");
+						db.close();
+					});
+				});*/
+			break;
+			case "/saludar":
+				bot.sendMessage(msg.chat.id, "¡Hola " + msg.chat.first_name + " " + msg.chat.last_name + "!");
+			break;
+			case "/debug":
+				bot.sendMessage(msg.chat.id, msg);
+			break;
+			case "/consumos":
+				request(process.env.SM_CONS_URL, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
+						var consumos = JSON.parse(body);
+						bot.sendMessage(msg.chat.id, "Usted tiene " + consumos.length + " consumos en el mes de septiembre.");
+					}
+				})
+			break;
+			default:
+				bot.sendMessage(msg.chat.id, "No reconocimos tu comando.");
+			break;
+		}
+	}
 });
