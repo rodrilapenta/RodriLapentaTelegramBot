@@ -26,10 +26,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // We are receiving updates at the route below!
-app.post(`/bot${TOKEN}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
+
 
 var MongoClient = require('mongodb').MongoClient;
 var mongoUrl = "mongodb://" + process.env.MONGO_URL;
@@ -40,6 +37,26 @@ MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) throw err;
 		console.log("'bot_users' collection created!");
 		db.close();
+	});
+});
+
+app.post(`/bot${TOKEN}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+
+app.post(`/notifyAll`, (req, res) => {
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) throw err;
+		var cursor = db.collection('bot_users').find();
+		cursor.each(function(err, item) {
+			if(item == null) {
+				db.close(); // you may not want to close the DB if you have more code....
+				return;
+			}
+			bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
+			item.
+		});
 	});
 });
 
