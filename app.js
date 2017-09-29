@@ -53,7 +53,7 @@ bot.on('message', msg => {
   console.log("message", msg);
   console.log("message JSON", JSON.stringify(msg));
   bot.sendMessage(msg.chat.id, JSON.stringify(msg));
-  
+
   if(msg.voice) {
     handleVoiceMessage(msg);
   }
@@ -146,8 +146,7 @@ function handleTextMessage(msg) {
 				reply_markup: JSON.stringify({
 				  keyboard: [
 					['Sí, soy un boludo'],
-					['No, soy dos boludos'],
-					['Sí, soy boludo y no tengo huevos']
+					['No, soy dos boludos']
 				  ]
 				})
 			  };
