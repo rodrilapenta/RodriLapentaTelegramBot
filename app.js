@@ -162,9 +162,10 @@ function handleTextMessage(msg) {
 				reply_to_message_id: msg.message_id,
 				reply_markup: JSON.stringify({
 				  keyboard: [
-					['Sí, soy un boludo'],
-					['No, soy dos boludos']
-				  ]
+						['Sí, soy un boludo'],
+						['No, soy dos boludos']
+					],
+					one_time_keyboard: true
 				})
 			  };
 			bot.sendMessage(msg.chat.id, '¿Sos boludo?', opts);
