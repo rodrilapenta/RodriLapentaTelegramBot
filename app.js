@@ -55,7 +55,6 @@ app.post(`/notifyAll`, (req, res) => {
 				return;
 			}
 			bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
-			item.
 		});
 	});
 });
