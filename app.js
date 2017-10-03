@@ -135,7 +135,7 @@ function handleTextMessage(msg) {
 					chat_id: msg.chat.id
 				}
 				db.collection("bot_users").update(
-					{keyword: user.info.from},
+					{keyword: user.info},
 					{$inc: {visit_count: 1}},
 					{upsert: true, safe: false},
 					function(err, res) {
