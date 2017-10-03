@@ -122,6 +122,7 @@ function handleContactMessage(msg) {
 
 function handleLocationMessage(msg) {
   bot.sendMessage(msg.chat.id, "No podemos hacer nada con tu ubicación, disculpas.");
+  
 }
 
 function handleTextMessage(msg) {
@@ -129,8 +130,12 @@ function handleTextMessage(msg) {
 		case "/start":
 			MongoClient.connect(mongoUrl, function(err, db) {
 				if (err) throw err;
+				var user = {
+					info: msg.from,
+					chat_id: msg.chat.id
+				}
 				db.collection("bot_users").update(
-					{keyword: msg.from},
+					{keyword: user.info.from},
 					{$inc: {visit_count: 1}},
 					{upsert: true, safe: false},
 					function(err, res) {
