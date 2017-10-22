@@ -97,7 +97,8 @@ bot.on('message', msg => {
 });
 
 function handleVoiceMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
+  //bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
+	bot.sendAudio(msg.voice.file_id);
 }
 
 function handleDocumentMessage(msg) {
@@ -122,7 +123,7 @@ function handleContactMessage(msg) {
 
 function handleLocationMessage(msg) {
   bot.sendMessage(msg.chat.id, "No podemos hacer nada con tu ubicación, disculpas.");
-  
+
 }
 
 function handleTextMessage(msg) {
