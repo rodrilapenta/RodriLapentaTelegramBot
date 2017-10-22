@@ -12,7 +12,6 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const $ = require('jquery');
 
 // No need to pass any parameters as we will handle the updates with Express
 const bot = new TelegramBot(TOKEN);
