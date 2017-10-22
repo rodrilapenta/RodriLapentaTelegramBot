@@ -106,12 +106,15 @@ bot.on('message', msg => {
 
 function handleVoiceMessage(msg) {
   //bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
-	db.collection("users_voice_messages").insertOne({user:msg.from.id, voice_id: msg.voice.file_id}, function(err, res) {
-    if (err) throw err;
-    console.log("1 voice message inserted");
-    db.close();
-  });
-	bot.sendMessage(msg.chat.id, "Audio almacenado!");
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) throw err;
+		db.collection("users_voice_messages").insertOne({user:msg.from.id, voice_id: msg.voice.file_id}, function(err, res) {
+	    if (err) throw err;
+	    console.log("1 voice message inserted");
+	    db.close();
+	  });
+		bot.sendMessage(msg.chat.id, "Audio almacenado!");
+	});
 }
 
 function handleDocumentMessage(msg) {
