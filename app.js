@@ -97,7 +97,7 @@ bot.on('message', msg => {
 
 function handleVoiceMessage(msg) {
   //bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
-	bot.sendAudio(msg.voice.file_id);
+	bot.sendVoice(msg.voice.file_id);
 }
 
 function handleDocumentMessage(msg) {
