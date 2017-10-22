@@ -39,6 +39,15 @@ MongoClient.connect(mongoUrl, function(err, db) {
 	});
 });
 
+MongoClient.connect(mongoUrl, function(err, db) {
+	if (err) throw err;
+	db.createCollection("users_voice_messages", function(err, res) {
+		if (err) throw err;
+		console.log("'users_voice_messages' collection created!");
+		db.close();
+	});
+});
+
 app.post(`/bot${TOKEN}`, (req, res) => {
   bot.processUpdate(req.body);
   res.sendStatus(200);
@@ -97,7 +106,12 @@ bot.on('message', msg => {
 
 function handleVoiceMessage(msg) {
   //bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
-	bot.sendVoice(msg.chat.id, msg.voice.file_id);
+	db.collection("users_voice_messages").insertOne({user:msg.from.id, voice_id: msg.voice.file_id}, function(err, res) {
+    if (err) throw err;
+    console.log("1 voice message inserted");
+    db.close();
+  });
+	bot.sendMessage(msg.chat.id, "Audio almacenado!");
 }
 
 function handleDocumentMessage(msg) {
