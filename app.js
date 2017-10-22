@@ -178,6 +178,19 @@ function handleTextMessage(msg) {
 				}
 			})
 		break;
+		case "/audios":
+			MongoClient.connect(mongoUrl, function(err, db) {
+				if (err) throw err;
+				var cursor = db.collection('users_voice_messages').find({user: msg.from.id});
+				cursor.each(function(err, item) {
+					if(item == null) {
+						db.close(); // you may not want to close the DB if you have more code....
+						return;
+					}
+					bot.sendVoice(msg.chat.id, item.voice_id);
+				});
+			});
+		break;
 		case "/pregunta":
 			const opts = {
 				reply_to_message_id: msg.message_id,
