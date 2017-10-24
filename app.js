@@ -72,6 +72,22 @@ app.listen(port, () => {
   console.log(`Express server levantado en el puerto ${port}`);
 });
 
+bot.on('callback_query', function onCallbackQuery(callbackQuery) {
+  const action = callbackQuery.data;
+  const msg = callbackQuery.message;
+  const opts = {
+    chat_id: msg.chat.id,
+    message_id: msg.message_id,
+  };
+  let text;
+
+  if (action === '1') {
+    text = 'You hit button 1';
+  }
+
+  bot.editMessageText(text, opts);
+});
+
 // Just to ping!
 bot.on('message', msg => {
   console.log("message", msg);
@@ -195,9 +211,10 @@ function handleTextMessage(msg) {
 			const opts = {
 				reply_to_message_id: msg.message_id,
 				reply_markup: JSON.stringify({
-				  keyboard: [
-						['Sí, soy un boludo'],
-						['No, soy dos boludos']
+				  inline_keyboard: [
+						[{ text: 'Some button text 1', callback_data: '1' }],
+          	[{ text: 'Some button text 2', callback_data: '2' }],
+          	[{ text: 'Some button text 3', callback_data: '3' }]
 					],
 					one_time_keyboard: true
 				})
