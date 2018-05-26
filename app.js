@@ -34,24 +34,21 @@ MongoClient.connect(mongoUrl, function(err, db) {
 	if (err) throw err;
 	db.createCollection("bot_users", function(err, res) {
 		if (err) throw err;
-		console.log("'bot_users' collection created!");
-		db.close();
+		console.log("'bot_users' collection created!");	
 	});
 	db.createCollection("users_voice_messages", function(err, res) {
 		if (err) throw err;
 		console.log("'users_voice_messages' collection created!");
-		db.close();
 	});
 	db.createCollection("users_contacts", function(err, res) {
 		if (err) throw err;
 		console.log("'users_contacts' collection created!");
-		db.close();
 	});
 	db.createCollection("users_images", function(err, res) {
 		if (err) throw err;
 		console.log("'users_images' collection created!");
-		db.close();
 	});
+	db.close();
 });
 
 app.post(`/bot${TOKEN}`, (req, res) => {
