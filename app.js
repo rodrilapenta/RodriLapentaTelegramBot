@@ -37,20 +37,26 @@ MongoClient.connect(mongoUrl, function(err, db) {
 		console.log("'bot_users' collection created!");
 		db.close();
 	});
-});
-
-MongoClient.connect(mongoUrl, function(err, db) {
-	if (err) throw err;
 	db.createCollection("users_voice_messages", function(err, res) {
 		if (err) throw err;
 		console.log("'users_voice_messages' collection created!");
 		db.close();
 	});
+	db.createCollection("users_contacts", function(err, res) {
+		if (err) throw err;
+		console.log("'users_contacts' collection created!");
+		db.close();
+	});
+	db.createCollection("users_images", function(err, res) {
+		if (err) throw err;
+		console.log("'users_images' collection created!");
+		db.close();
+	});
 });
 
 app.post(`/bot${TOKEN}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
+	bot.processUpdate(req.body);
+	res.sendStatus(200);
 });
 
 app.post(`/notifyAll`, (req, res) => {
@@ -69,93 +75,107 @@ app.post(`/notifyAll`, (req, res) => {
 
 // Start Express Server
 app.listen(port, () => {
-  console.log(`Express server levantado en el puerto ${port}`);
+	console.log(`Express server levantado en el puerto ${port}`);
 });
 
 bot.on('callback_query', function onCallbackQuery(callbackQuery) {
-  const action = callbackQuery.data;
-  const msg = callbackQuery.message;
-  const opts = {
-    chat_id: msg.chat.id,
-    message_id: msg.message_id,
-  };
-  let text;
+	const action = callbackQuery.data;
+	const msg = callbackQuery.message;
+	const opts = {
+		chat_id: msg.chat.id,
+		message_id: msg.message_id,
+	};
+	let text;
 
-  if (action === '1') {
-    text = 'You hit button 1';
-  }
+	if (action === '1') {
+		text = 'You hit button 1';
+	}
 
-  bot.editMessageText(text, opts);
+	bot.editMessageText(text, opts);
 });
 
 // Just to ping!
 bot.on('message', msg => {
-  console.log("message", msg);
-  console.log("message JSON", JSON.stringify(msg));
-  bot.sendMessage(msg.chat.id, JSON.stringify(msg));
+	console.log("message", msg);
+	console.log("message JSON", JSON.stringify(msg));
+	bot.sendMessage(msg.chat.id, JSON.stringify(msg));
 
-  if(msg.voice) {
-    handleVoiceMessage(msg);
-  }
-  else if (msg.text) {
-    handleTextMessage(msg);
-  }
-  else if (msg.document) {
-    handleDocumentMessage(msg);
-  }
-  else if (msg.game) {
-    handleGameMessage(msg);
-  }
-  else if (msg.video) {
-    handleVideoMessage(msg);
-  }
-  else if (msg.video_note) {
-    handleVideoNoteMessage(msg);
-  }
-  else if (msg.contact) {
-    handleContactMessage(msg);
-  }
-  else if (msg.location) {
-    handleLocationMessage(msg);
-  }
+	if(msg.voice) {
+		handleVoiceMessage(msg);
+	}
+	else if (msg.text) {
+		handleTextMessage(msg);
+	}
+	else if (msg.document) {
+		handleDocumentMessage(msg);
+	}
+	else if (msg.game) {
+		handleGameMessage(msg);
+	}
+	else if (msg.video) {
+		handleVideoMessage(msg);
+	}
+	else if (msg.video_note) {
+		handleVideoNoteMessage(msg);
+	}
+	else if (msg.contact) {
+		handleContactMessage(msg);
+	}
+	else if (msg.location) {
+		handleLocationMessage(msg);
+	}
 });
 
 function handleVoiceMessage(msg) {
-  //bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
+	//bot.sendMessage(msg.chat.id, "No podemos escuchar tus audios, disculpas.");
 	MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) throw err;
 		db.collection("users_voice_messages").insertOne({user:msg.from.id, voice_id: msg.voice.file_id}, function(err, res) {
-	    if (err) throw err;
-	    console.log("1 voice message inserted");
-	    db.close();
-	  });
+			if (err) throw err;
+			console.log("1 voice message inserted");
+			db.close();
+		});
 		bot.sendMessage(msg.chat.id, "Audio almacenado!");
 	});
 }
 
 function handleDocumentMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus documentos, disculpas.");
+	bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus documentos, disculpas.");
 }
 
 function handleGameMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos jugar ahora, disculpas.");
+	bot.sendMessage(msg.chat.id, "No podemos jugar ahora, disculpas.");
 }
 
 function handleVideoMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
+	bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
 }
 
 function handleVideoNoteMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
+	bot.sendMessage(msg.chat.id, "No podemos ver tus videos, disculpas.");
 }
 
 function handleContactMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus contactos, disculpas.");
+	//bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus contactos, disculpas.");
+	MongoClient.connect(mongoUrl, function(err, db) {
+		if (err) throw err;
+		var cursor = db.collection('users_contacts').find({user: msg.from.id, contact: msg.contact});
+		if(cursor.length > 0) {
+			db.collection("users_contacts").insertOne({user:msg.from.id, contact: msg.contact}, function(err, res) {
+				if (err) throw err;
+				console.log("1 contact inserted");
+				db.close();
+			});
+			bot.sendMessage(msg.chat.id, "Contacto almacenado!");
+		}
+		else {
+			bot.sendMessage(msg.chat.id, "Ya existe el contacto que quieres almacenar");
+		}
+	});
 }
 
 function handleLocationMessage(msg) {
-  bot.sendMessage(msg.chat.id, "No podemos hacer nada con tu ubicación, disculpas.");
-
+	bot.sendMessage(msg.chat.id, "No podemos hacer nada con tu ubicación, disculpas.");
 }
 
 function handleTextMessage(msg) {
