@@ -240,6 +240,19 @@ function handleTextMessage(msg) {
 				});
 			});
 		break;
+		case "/contactos":
+			MongoClient.connect(mongoUrl, function(err, db) {
+				if (err) throw err;
+				var cursor = db.collection('users_contacts').find({user: msg.from.id});
+				cursor.each(function(err, item) {
+					if(item == null) {
+						db.close(); // you may not want to close the DB if you have more code....
+						return;
+					}
+					bot.sendContact(msg.chat.id, item.contact);
+				});
+			});
+		break;
 		case "/pregunta":
 			const opts = {
 				reply_to_message_id: msg.message_id,
