@@ -172,6 +172,7 @@ function handleContactMessage(msg) {
 	MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) throw err;
 		var cursor = db.collection('users_contacts').find({user: msg.from.id, contact: msg.contact});
+		console.log("CURSOS CONTACTOS", cursor);
 		if(cursor.length == 0) {
 			db.collection("users_contacts").insertOne({user:msg.from.id, contact: msg.contact}, function(err, res) {
 				if (err) throw err;
