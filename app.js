@@ -249,8 +249,7 @@ function handleTextMessage(msg) {
 						db.close(); // you may not want to close the DB if you have more code....
 						return;
 					}
-					console.info("ITEM CONTACTO", item.contact);
-					bot.sendContact(msg.chat.id, item.contact);
+					bot.sendContact(msg.chat.id, item.contact.phone_number, item.contact.first_name, item.contact.last_name);
 				});
 			});
 		break;
