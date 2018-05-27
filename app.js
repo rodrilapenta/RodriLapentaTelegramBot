@@ -171,19 +171,19 @@ function handleContactMessage(msg) {
 	//bot.sendMessage(msg.chat.id, "No podemos hacer nada con tus contactos, disculpas.");
 	MongoClient.connect(mongoUrl, function(err, db) {
 		if (err) throw err;
-		var cursor = db.collection('users_contacts').find({user: msg.from.id, contact: msg.contact});
-		console.log("CURSOS CONTACTOS", cursor);
-		if(cursor.length == 0) {
-			db.collection("users_contacts").insertOne({user:msg.from.id, contact: msg.contact}, function(err, res) {
-				if (err) throw err;
-				console.log("1 contact inserted");
-				db.close();
-			});
-			bot.sendMessage(msg.chat.id, "Contacto almacenado!");
-		}
-		else {
-			bot.sendMessage(msg.chat.id, "Ya existe el contacto que quieres almacenar");
-		}
+		db.collection('users_contacts').findOne({user: msg.from.id, contact: msg.contact}, function(err, contact) {
+			if(!contact) {
+				db.collection("users_contacts").insertOne({user:msg.from.id, contact: msg.contact}, function(err, res) {
+					if (err) throw err;
+					console.log("1 contact inserted");
+					db.close();
+				});
+				bot.sendMessage(msg.chat.id, "Contacto almacenado!");
+			}
+			else {
+				bot.sendMessage(msg.chat.id, "Ya existe el contacto que quieres almacenar");
+			}
+		});
 	});
 }
 
